@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 
 import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,13 @@ public class FileController {
     public FileController(UserService userService, FileService fileService) {
         this.userService = userService;
         this.fileService = fileService;
+    }
+
+    @GetMapping("/files")
+    public String notesView(Authentication auth, Model model) {
+        int userId = userService.getUser(auth.getName()).getUserId();
+        model.addAttribute( "files", fileService.getFilesForUser(userId));
+        return "files";
     }
 
     @PostMapping("/file/add")

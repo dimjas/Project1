@@ -5,6 +5,7 @@ import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -16,6 +17,13 @@ public class CredentialController {
     public CredentialController(UserService userService, CredentialService credentialService) {
         this.userService = userService;
         this.credentialService = credentialService;
+    }
+
+    @GetMapping("/credentials")
+    public String notesView(Authentication auth, Model model) {
+        int userId = userService.getUser(auth.getName()).getUserId();
+        model.addAttribute("credentials", credentialService.getCredentialsForUser(userId));
+        return "credentials";
     }
 
     @PostMapping("/credential/createUpdate")

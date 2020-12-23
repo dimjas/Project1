@@ -2,6 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,13 @@ public class NoteController {
     public NoteController(UserService userService, NoteService noteService) {
         this.userService = userService;
         this.noteService = noteService;
+    }
+
+    @GetMapping("/notes")
+    public String notesView(Authentication auth, Model model) {
+        int userId = userService.getUser(auth.getName()).getUserId();
+        model.addAttribute("notes", noteService.getNotesForUser(userId));
+        return "notes";
     }
 
     @PostMapping("/note/createUpdate")

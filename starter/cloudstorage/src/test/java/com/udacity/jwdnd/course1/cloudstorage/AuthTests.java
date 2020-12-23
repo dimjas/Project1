@@ -47,6 +47,12 @@ class AuthTests {
         assertEquals("Login", driver.getTitle());
         driver.get(baseURL + "/result");
         assertEquals("Login", driver.getTitle());
+        driver.get(baseURL + "/files");
+        assertEquals("Login", driver.getTitle());
+        driver.get(baseURL + "/notes");
+        assertEquals("Login", driver.getTitle());
+        driver.get(baseURL + "/credentials");
+        assertEquals("Login", driver.getTitle());
     }
 
     @Test
