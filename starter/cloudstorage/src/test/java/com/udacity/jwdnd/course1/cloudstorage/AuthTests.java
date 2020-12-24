@@ -90,6 +90,16 @@ class AuthTests {
         assertEquals("Login",driver.getTitle());
     }
 
+    @Test
+    public void shouldDisplayErrorPageWhenNavigateToInvalidUrl() {
+        signIn();
+        login();
+
+        assertEquals("Home", driver.getTitle());
+        driver.get(baseURL + "/home/invalid");
+        assertEquals("Error",driver.getTitle());
+    }
+
     private void signIn() {
         driver.get(baseURL + "/signup");
         SignupPage signupPage = new SignupPage(driver);
