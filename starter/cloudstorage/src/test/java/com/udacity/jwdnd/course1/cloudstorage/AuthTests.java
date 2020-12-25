@@ -66,10 +66,9 @@ class AuthTests {
     @Test
     public void shouldDisplayErrorWhenCredentialsAreInvalid() {
         signIn();
-        driver.get(baseURL + "/login");
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login(USERNAME, "wrong password");
-        assertTrue(loginPage.errorMessage.isDisplayed());
+        assertTrue(loginPage.isErrorDisplayed());
     }
 
     @Test
@@ -79,7 +78,7 @@ class AuthTests {
 
         assertEquals("Home", driver.getTitle());
         driver.get(baseURL + "/logout");
-        assertEquals("You have been logged out", new LoginPage(driver).logoutMessage.getText());
+        assertEquals("You have been logged out", new LoginPage(driver).getLogoutMessage());
         driver.get(baseURL + "/home");
         assertEquals("Login",driver.getTitle());
     }
@@ -101,7 +100,9 @@ class AuthTests {
     }
 
     private void login() {
-        driver.get(baseURL + "/login");
+        if(driver.getCurrentUrl().endsWith("/signup")) {
+            driver.get(baseURL + "/login");
+        }
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login(USERNAME, PASSWORD);
     }

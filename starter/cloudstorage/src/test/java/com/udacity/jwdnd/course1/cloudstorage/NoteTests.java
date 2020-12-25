@@ -83,7 +83,7 @@ public class NoteTests {
         NotePage notePage = new NotePage(driver);
         ResultPage resultPage = new ResultPage(driver);
         notePage.openNoteTab();
-        notePage.updateNote( 0,"Title Update", "Description Update");
+        notePage.updateNote(0, "Title Update", "Description Update");
         wait.until(pageLoadCondition);
 
         assertEquals("Result", driver.getTitle());
@@ -106,7 +106,7 @@ public class NoteTests {
         ResultPage resultPage = new ResultPage(driver);
         notePage.openNoteTab();
         assertEquals(1, notePage.getNotesSize());
-        notePage.deleteNote( 0);
+        notePage.deleteNote(0);
         wait.until(pageLoadCondition);
 
         assertEquals("Result", driver.getTitle());
@@ -121,7 +121,9 @@ public class NoteTests {
         SignupPage signupPage = new SignupPage(driver);
         signupPage.signup("FirstName", "LastName", USERNAME, PASSWORD);
 
-        driver.get(baseURL + "/login");
+        if (driver.getCurrentUrl().endsWith("/signup")) {
+            driver.get(baseURL + "/login");
+        }
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login(USERNAME, PASSWORD);
     }
