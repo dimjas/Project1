@@ -72,7 +72,7 @@ public class CredentialTests {
         assertEquals(baseURL + "/home?activeTab=credentials", driver.getCurrentUrl());
         wait.until(pageLoadCondition);
         assertTrue(credentialPage.hasCredentials());
-        assertEquals(1,credentialPage.getCredentialsSize());
+        assertEquals(1, credentialPage.getCredentialsSize());
         assertEquals(url, credentialPage.getCredentialUrl(0));
         assertEquals(username, credentialPage.getCredentialUsername(0));
         assertNotEquals(password, credentialPage.getCredentialPassword(0));
@@ -90,7 +90,7 @@ public class CredentialTests {
         CredentialPage credentialPage = new CredentialPage(driver);
         ResultPage resultPage = new ResultPage(driver);
         credentialPage.openCredentialTab();
-        credentialPage.updateCredential( 0, url, username , password);
+        credentialPage.updateCredential(0, url, username, password);
         wait.until(pageLoadCondition);
 
         assertEquals("Result", driver.getTitle());
@@ -113,7 +113,7 @@ public class CredentialTests {
         ResultPage resultPage = new ResultPage(driver);
         credentialPage.openCredentialTab();
         assertEquals(1, credentialPage.getCredentialsSize());
-        credentialPage.deleteCredential( 0);
+        credentialPage.deleteCredential(0);
         wait.until(pageLoadCondition);
 
         assertEquals("Result", driver.getTitle());
@@ -130,7 +130,9 @@ public class CredentialTests {
         SignupPage signupPage = new SignupPage(driver);
         signupPage.signup("FirstName", "LastName", username, password);
 
-        driver.get(baseURL + "/login");
+        if (driver.getCurrentUrl().endsWith("/signup")) {
+            driver.get(baseURL + "/login");
+        }
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login(username, password);
     }
